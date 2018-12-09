@@ -1,6 +1,12 @@
 # Build stage
 FROM node:9.10.0-alpine as build
+
 WORKDIR /usr/src/app
+ARG REACT_APP_API=/api
+ARG REACT_APP_MAPBOX_TOKEN
+ENV REACT_APP_API $REACT_APP_API
+ENV REACT_APP_MAPBOX_TOKEN $REACT_APP_MAPBOX_TOKEN
+
 COPY package.json yarn.lock ./
 RUN yarn
 COPY . ./
