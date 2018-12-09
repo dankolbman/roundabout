@@ -9,7 +9,7 @@ mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
 class PointMap extends Component {
 
   componentDidMount() {
-    this.props.fetchData('http://localhost:5000/api/trips/1/linestring');
+    this.props.fetchData(`${process.env.REACT_APP_API}/trips/1/linestring`);
 
     this.map = new mapboxgl.Map({
       container: this.mapContainer,
