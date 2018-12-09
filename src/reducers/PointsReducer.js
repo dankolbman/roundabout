@@ -32,7 +32,7 @@ const pageSuccess = (state = [], action = {}) => {
 
 
 export default combineReducers({
-	items: pageSuccess,
+	geoJSON: pageSuccess,
 	pageError,
 	pageLoading,
 });

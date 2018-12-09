@@ -11,22 +11,22 @@ export function getPointsAction(trip) {
 export function requestTripPointsPageError(hasError, message) {
   return {
     type: 'REQUEST_TRIP_POINTS_PAGE_ERROR',
-		hasError,
-		message,
+    hasError,
+    message,
   }
 }
 
 export function requestTripPointsPageLoading(loading) {
   return {
     type: 'REQUEST_TRIP_POINTS_PAGE_LOADING',
-		loading,
+    loading,
   }
 }
 
 export function requestTripPointsPageSuccess(data) {
   return {
     type: 'REQUEST_TRIP_POINTS_PAGE_SUCCESS',
-		points: data.results,
+    points: data,
   }
 }
 
@@ -34,20 +34,23 @@ export function requestTripPointsPageSuccess(data) {
  * Request a page of points for a given trip
  */
 export function tripPointsFetchPage(url) {
-	return (dispatch) => {
-		dispatch(requestTripPointsPageLoading(true));
+  console.log('fetching');
+  return (dispatch) => {
+    dispatch(requestTripPointsPageLoading(true));
 
-		axios.get(url)
-			.then((response) => {
-				if (response.status !== 200) {
-					throw Error(response.statusText);
-				}
+    axios.get(url)
+      .then((response) => {
+        if (response.status !== 200) {
+          throw Error(response.statusText);
+        }
 
-				dispatch(requestTripPointsPageLoading(false));
+        dispatch(requestTripPointsPageLoading(false));
 
-				return response;
-			})
-			.then((response) => dispatch(requestTripPointsPageSuccess(response.data)))
-			.catch((err) => dispatch(requestTripPointsPageError(true, err)));
-	};
+        return response;
+      })
+      .then((response) => {
+        dispatch(requestTripPointsPageSuccess(response.data))
+      })
+      .catch((err) => dispatch(requestTripPointsPageError(true, err)));
+  };
 }
