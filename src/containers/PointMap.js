@@ -22,15 +22,17 @@ class PointMap extends Component {
         data: this.props.lineString
       });
 
-      var bounds = this.props.lineString.coordinates.reduce(function(bounds, coord) {
-        return bounds.extend(coord);
-      }, new mapboxgl.LngLatBounds(
-        this.props.lineString.coordinates[0],
-        this.props.lineString.coordinates[0]));
+      if (this.props.lineString.coordinates) {
+        var bounds = this.props.lineString.coordinates.reduce(function(bounds, coord) {
+          return bounds.extend(coord);
+        }, new mapboxgl.LngLatBounds(
+          this.props.lineString.coordinates[0],
+          this.props.lineString.coordinates[0]));
 
-      this.map.fitBounds(bounds, {
-        padding: 100
-      });
+        this.map.fitBounds(bounds, {
+          padding: 100
+        });
+      }
 
       this.map.addLayer({
         id: 'route',
