@@ -39,6 +39,9 @@ class PointMap extends Component {
         type: 'line',
         source: 'route'
       }, 'country-label-lg');
+
+      this.map.addControl(new mapboxgl.NavigationControl());
+      this.map.scrollZoom.disable();
     });
   }
 
