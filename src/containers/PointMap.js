@@ -13,7 +13,7 @@ class PointMap extends Component {
 
     this.map = new mapboxgl.Map({
       container: this.mapContainer,
-      style: 'mapbox://styles/mapbox/streets-v10'
+      style: 'mapbox://styles/mapbox/light-v9'
     });
 
     this.map.on('load', () => {
@@ -37,7 +37,8 @@ class PointMap extends Component {
       this.map.addLayer({
         id: 'route',
         type: 'line',
-        source: 'route'
+        source: 'route',
+        paint: { 'line-color': '#de3c4b' },
       }, 'country-label-lg');
 
       this.map.addControl(new mapboxgl.NavigationControl());
@@ -51,13 +52,10 @@ class PointMap extends Component {
 
   render() {
     const style = {
-      position: 'absolute',
-      top: 0,
-      bottom: 0,
       width: '100%'
     };
     return (
-      <div style={style} ref={el => this.mapContainer = el} />
+      <div className="Map" style={style} ref={el => this.mapContainer = el} />
     )
   }
 }
