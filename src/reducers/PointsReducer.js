@@ -21,10 +21,13 @@ const pageLoading = (state = false, action = {}) => {
 	}
 }
 
-const pageSuccess = (state = [], action = {}) => {
+const pageSuccess = (state = {}, action = {}) => {
   switch(action.type) {
 		case 'REQUEST_TRIP_POINTS_PAGE_SUCCESS':
-			return action.points;
+			return {
+        ...state,
+        [action.tripId]: action.points
+      }
 		default:
 			return state;
 	}

@@ -1,42 +1,44 @@
 import axios from 'axios';
 
 export function getPointsAction(trip) {
-    console.log(trip)
     return {
         type: 'POINTS_LOADED',
-        payload: trip
+        payload: trip,
     }
 }
 
-export function requestTripPointsPageError(hasError, message) {
+export function requestTripPointsPageError(tripId, hasError, message) {
   return {
     type: 'REQUEST_TRIP_POINTS_PAGE_ERROR',
     hasError,
     message,
+    tripId,
   }
 }
 
-export function requestTripPointsPageLoading(loading) {
+export function requestTripPointsPageLoading(tripId, loading) {
   return {
     type: 'REQUEST_TRIP_POINTS_PAGE_LOADING',
     loading,
+    tripId,
   }
 }
 
-export function requestTripPointsPageSuccess(data) {
+export function requestTripPointsPageSuccess(tripId, data) {
   return {
     type: 'REQUEST_TRIP_POINTS_PAGE_SUCCESS',
     points: data,
+    tripId,
   }
 }
 
 /*
  * Request a page of points for a given trip
  */
-export function tripPointsFetchPage(url) {
-  console.log('fetching');
-  return (dispatch) => {
-    dispatch(requestTripPointsPageLoading(true));
+export function tripPointsFetchPage(tripId, map) {
+  const url = `${process.env.REACT_APP_API}/trips/${tripId}/linestring`;
+  return (dispatch, getState) => {
+    dispatch(requestTripPointsPageLoading(tripId, true));
 
     axios.get(url)
       .then((response) => {
@@ -44,13 +46,20 @@ export function tripPointsFetchPage(url) {
           throw Error(response.statusText);
         }
 
-        dispatch(requestTripPointsPageLoading(false));
+        dispatch(requestTripPointsPageLoading(tripId, false));
 
         return response;
       })
       .then((response) => {
-        dispatch(requestTripPointsPageSuccess(response.data))
+        dispatch(requestTripPointsPageSuccess(tripId, response.data))
+        return response
       })
-      .catch((err) => dispatch(requestTripPointsPageError(true, err)));
+      .then((response) => {
+        console.log('update map');
+        console.log(map);
+        map.getSource('route').setData(getState().points.geoJSON);
+        return response
+      })
+      .catch((err) => dispatch(requestTripPointsPageError(tripId, true, err)));
   };
 }

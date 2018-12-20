@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { tripPointsFetchPage } from '../actions/get_points';
+import { fetchTripLineString } from '../actions/LineStringActions';
 import { bindActionCreators } from 'redux';
 import mapboxgl from 'mapbox-gl'
 
@@ -8,41 +9,61 @@ mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
 
 class PointMap extends Component {
 
+  componentWillReceiveProps(nextProps) {
+    const tripId = this.props.match.params.tripId;
+    if (nextProps.match.params.tripId != tripId) {
+      this.props.fetchData(nextProps.match.params.tripId, this.map);
+    }
+  }
+
   componentDidMount() {
-    this.props.fetchData(`${process.env.REACT_APP_API}/trips/1/linestring`);
+    const tripId = this.props.match.params.tripId;
+    this.renderMap();
+    if (!(tripId in this.props.lineStrings)) {
+      this.props.fetchData(tripId, this.map);
+    }
+  }
+
+  renderMap() {
+    const tripId = this.props.match.params.tripId;
 
     this.map = new mapboxgl.Map({
       container: this.mapContainer,
       style: 'mapbox://styles/mapbox/light-v9'
     });
 
+    // Load event
     this.map.on('load', () => {
+      this.map.addControl(new mapboxgl.NavigationControl());
+      this.map.scrollZoom.disable();
+
       this.map.addSource('route', {
         type: 'geojson',
-        data: this.props.lineString
+        data: this.props.lineStrings[tripId].geoJSON
       });
-
-      if (this.props.lineString.coordinates) {
-        var bounds = this.props.lineString.coordinates.reduce(function(bounds, coord) {
-          return bounds.extend(coord);
-        }, new mapboxgl.LngLatBounds(
-          this.props.lineString.coordinates[0],
-          this.props.lineString.coordinates[0]));
-
-        this.map.fitBounds(bounds, {
-          padding: 100
-        });
-      }
 
       this.map.addLayer({
         id: 'route',
         type: 'line',
         source: 'route',
-        paint: { 'line-color': '#de3c4b' },
+        paint: { 'line-color': '#de3c4b', 'line-width': 2},
       }, 'country-label-lg');
+    });
 
-      this.map.addControl(new mapboxgl.NavigationControl());
-      this.map.scrollZoom.disable();
+    // Zoom in on selected points when data changes
+    this.map.on('sourcedata', (ev) => {
+      if (ev.isSourceLoaded) {
+        const tripId = this.props.match.params.tripId;
+        var bounds = this.props.lineStrings[tripId].geoJSON.coordinates.reduce(function(bounds, coord) {
+          return bounds.extend(coord);
+        }, new mapboxgl.LngLatBounds(
+          this.props.lineStrings[tripId].geoJSON.coordinates[0],
+          this.props.lineStrings[tripId].geoJSON.coordinates[0]));
+
+        this.map.fitBounds(bounds, {
+          padding: 100
+        });
+      }
     });
   }
 
@@ -62,15 +83,13 @@ class PointMap extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchData: (url) => dispatch(tripPointsFetchPage(url))
+    fetchData: (tripId, map) => dispatch(fetchTripLineString(tripId, map))
   };
 }
 
 function mapStateToProps(state) {
   return {
-    lineString: state.points.geoJSON,
-    isLoading: state.points.loading,
-    error: state.points.error,
+    lineStrings: state.lineStrings,
   }
 }
 
