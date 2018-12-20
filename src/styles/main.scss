@@ -49,5 +49,9 @@
         &:active {
             border-bottom: 2px $primary2 solid;
         }
+        & img {
+            vertical-align: middle;
+            padding: 0 4px;
+        }
     }
 }
