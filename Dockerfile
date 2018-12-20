@@ -7,6 +7,9 @@ ARG REACT_APP_MAPBOX_TOKEN
 ENV REACT_APP_API $REACT_APP_API
 ENV REACT_APP_MAPBOX_TOKEN $REACT_APP_MAPBOX_TOKEN
 
+RUN apk add --update \
+        python \
+        build-base
 COPY package.json yarn.lock ./
 RUN yarn
 COPY . ./
