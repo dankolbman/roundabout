@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 export function getSpeedAction(trip) {
-    console.log(trip)
-    return {
-        type: 'SPEED_LOADED',
-        payload: trip
-    }
+  console.log(trip);
+  return {
+    type: 'SPEED_LOADED',
+    payload: trip,
+  };
 }
 
 export function requestTripSpeedPageError(hasError, message) {
@@ -13,21 +13,21 @@ export function requestTripSpeedPageError(hasError, message) {
     type: 'REQUEST_TRIP_SPEED_PAGE_ERROR',
     hasError,
     message,
-  }
+  };
 }
 
 export function requestTripSpeedPageLoading(loading) {
   return {
     type: 'REQUEST_TRIP_SPEED_PAGE_LOADING',
     loading,
-  }
+  };
 }
 
 export function requestTripSpeedPageSuccess(data) {
   return {
     type: 'REQUEST_TRIP_SPEED_PAGE_SUCCESS',
     points: data.speed,
-  }
+  };
 }
 
 /*
@@ -35,11 +35,12 @@ export function requestTripSpeedPageSuccess(data) {
  */
 export function tripSpeedFetchPage(url) {
   console.log('fetching');
-  return (dispatch) => {
+  return dispatch => {
     dispatch(requestTripSpeedPageLoading(true));
 
-    axios.get(url)
-      .then((response) => {
+    axios
+      .get(url)
+      .then(response => {
         if (response.status !== 200) {
           throw Error(response.statusText);
         }
@@ -48,9 +49,9 @@ export function tripSpeedFetchPage(url) {
 
         return response;
       })
-      .then((response) => {
-        dispatch(requestTripSpeedPageSuccess(response.data))
+      .then(response => {
+        dispatch(requestTripSpeedPageSuccess(response.data));
       })
-      .catch((err) => dispatch(requestTripSpeedPageError(true, err)));
+      .catch(err => dispatch(requestTripSpeedPageError(true, err)));
   };
 }

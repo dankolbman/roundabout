@@ -5,14 +5,14 @@ export function lineStringLoading(tripId, loading) {
     type: 'LINESTRING_LOADING',
     tripId,
     loading,
-  }
+  };
 }
 
 export function lineStringError(tripId, error) {
   return {
     type: 'LINESTRING_ERROR',
     error,
-  }
+  };
 }
 
 export function lineStringLoaded(tripId, data) {
@@ -20,7 +20,7 @@ export function lineStringLoaded(tripId, data) {
     type: 'LINESTRING_LOADED',
     points: data,
     tripId,
-  }
+  };
 }
 
 /*
@@ -34,11 +34,12 @@ export function fetchTripLineString(tripId, map) {
     if (getState().lineStrings[tripId].geoJSON !== undefined) {
       const data = getState().lineStrings[tripId].geoJSON;
       map.getSource('route').setData(data);
-      return data
+      return data;
     }
 
-    axios.get(url)
-      .then((response) => {
+    axios
+      .get(url)
+      .then(response => {
         if (response.status !== 200) {
           throw Error(response.statusText);
         }
@@ -47,14 +48,14 @@ export function fetchTripLineString(tripId, map) {
 
         return response;
       })
-      .then((response) => {
-        dispatch(lineStringLoaded(tripId, response.data))
-        return response
+      .then(response => {
+        dispatch(lineStringLoaded(tripId, response.data));
+        return response;
       })
-      .then((response) => {
+      .then(response => {
         map.getSource('route').setData(response.data);
-        return response
+        return response;
       })
-      .catch((err) => dispatch(lineStringError(tripId, true)));
+      .catch(err => dispatch(lineStringError(tripId, true)));
   };
 }

@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Link, Route, Switch } from "react-router-dom";
+import React, {Component} from 'react';
+import {Link, Route, Switch} from 'react-router-dom';
 import PointMap from './containers/PointMap';
 import tuktuk from './tuktuk.svg';
 import motorcycle from './motorcycle.svg';
@@ -15,20 +15,20 @@ class App extends Component {
 
           <ul className="nav-buttons">
             <li className="nav-button">
-              <Link to="/1" activeStyle={{ color: 'red' }}>
-                <img src={scooter} width={24} height={24}/>
+              <Link to="/1" activeStyle={{color: 'red'}}>
+                <img src={scooter} width={24} height={24} />
                 The Vietnamese Frontier
               </Link>
             </li>
             <li className="nav-button">
-              <Link to='/2' activeStyle={{ backgroundColor: 'red' }}>
-                <img src={motorcycle} width={24} height={24}/>
+              <Link to="/2" activeStyle={{backgroundColor: 'red'}}>
+                <img src={motorcycle} width={24} height={24} />
                 Zuma and the Guptas
               </Link>
             </li>
             <li className="nav-button">
-              <Link to='/3'>
-                <img src={tuktuk} width={24} height={24}/>
+              <Link to="/3">
+                <img src={tuktuk} width={24} height={24} />
                 Rickshaw Run
               </Link>
             </li>
@@ -36,10 +36,7 @@ class App extends Component {
         </div>
 
         <Switch>
-          <Route
-            path="/:tripId"
-            component={PointMap}
-          />
+          <Route path="/:tripId" component={PointMap} />
         </Switch>
       </div>
     );

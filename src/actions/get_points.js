@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 export function getPointsAction(trip) {
-    return {
-        type: 'POINTS_LOADED',
-        payload: trip,
-    }
+  return {
+    type: 'POINTS_LOADED',
+    payload: trip,
+  };
 }
 
 export function requestTripPointsPageError(tripId, hasError, message) {
@@ -13,7 +13,7 @@ export function requestTripPointsPageError(tripId, hasError, message) {
     hasError,
     message,
     tripId,
-  }
+  };
 }
 
 export function requestTripPointsPageLoading(tripId, loading) {
@@ -21,7 +21,7 @@ export function requestTripPointsPageLoading(tripId, loading) {
     type: 'REQUEST_TRIP_POINTS_PAGE_LOADING',
     loading,
     tripId,
-  }
+  };
 }
 
 export function requestTripPointsPageSuccess(tripId, data) {
@@ -29,7 +29,7 @@ export function requestTripPointsPageSuccess(tripId, data) {
     type: 'REQUEST_TRIP_POINTS_PAGE_SUCCESS',
     points: data,
     tripId,
-  }
+  };
 }
 
 /*
@@ -40,8 +40,9 @@ export function tripPointsFetchPage(tripId, map) {
   return (dispatch, getState) => {
     dispatch(requestTripPointsPageLoading(tripId, true));
 
-    axios.get(url)
-      .then((response) => {
+    axios
+      .get(url)
+      .then(response => {
         if (response.status !== 200) {
           throw Error(response.statusText);
         }
@@ -50,16 +51,16 @@ export function tripPointsFetchPage(tripId, map) {
 
         return response;
       })
-      .then((response) => {
-        dispatch(requestTripPointsPageSuccess(tripId, response.data))
-        return response
+      .then(response => {
+        dispatch(requestTripPointsPageSuccess(tripId, response.data));
+        return response;
       })
-      .then((response) => {
+      .then(response => {
         console.log('update map');
         console.log(map);
         map.getSource('route').setData(getState().points.geoJSON);
-        return response
+        return response;
       })
-      .catch((err) => dispatch(requestTripPointsPageError(tripId, true, err)));
+      .catch(err => dispatch(requestTripPointsPageError(tripId, true, err)));
   };
 }
