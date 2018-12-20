@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Link, Route, Switch} from 'react-router-dom';
+import {NavLink, Route, Switch} from 'react-router-dom';
 import PointMap from './containers/PointMap';
 import tuktuk from './tuktuk.svg';
 import motorcycle from './motorcycle.svg';
@@ -15,22 +15,22 @@ class App extends Component {
 
           <ul className="nav-buttons">
             <li className="nav-button">
-              <Link to="/1" activeStyle={{color: 'red'}}>
+              <NavLink to="/1">
                 <img src={scooter} width={24} height={24} />
                 The Vietnamese Frontier
-              </Link>
+              </NavLink>
             </li>
             <li className="nav-button">
-              <Link to="/2" activeStyle={{backgroundColor: 'red'}}>
+              <NavLink to="/2">
                 <img src={motorcycle} width={24} height={24} />
                 Zuma and the Guptas
-              </Link>
+              </NavLink>
             </li>
             <li className="nav-button">
-              <Link to="/3">
+              <NavLink to="/3">
                 <img src={tuktuk} width={24} height={24} />
                 Rickshaw Run
-              </Link>
+              </NavLink>
             </li>
           </ul>
         </div>
