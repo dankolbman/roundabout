@@ -63,7 +63,6 @@ class PointMap extends Component {
         ev.sourceDataType !== 'metadata' &&
         this.map.getSource('route') &&
         this.map.isSourceLoaded('route') &&
-        this.props.match.params.tripId !== undefined &&
         this.props.lineStrings[tripId].geoJSON !== undefined
       ) {
         const {

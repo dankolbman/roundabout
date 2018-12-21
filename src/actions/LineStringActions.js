@@ -27,6 +27,7 @@ export function lineStringLoaded(tripId, data) {
  * Request a page of points for a given trip
  */
 export function fetchTripLineString(tripId, map) {
+  tripId = tripId === undefined ? 1 : tripId;
   const url = `${process.env.REACT_APP_API}/trips/${tripId}/linestring`;
   return (dispatch, getState) => {
     dispatch(lineStringLoading(tripId, true));
