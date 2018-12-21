@@ -36,9 +36,13 @@ class PointMap extends Component {
       this.map.addControl(new mapboxgl.NavigationControl());
       this.map.scrollZoom.disable();
 
+      const {
+        geoJSON = {type: 'LineString', coordinates: []},
+      } = this.props.lineStrings[tripId];
+
       this.map.addSource('route', {
         type: 'geojson',
-        data: this.props.lineStrings[tripId].geoJSON,
+        data: geoJSON,
       });
 
       this.map.addLayer(
@@ -54,17 +58,26 @@ class PointMap extends Component {
 
     // Zoom in on selected points when data changes
     this.map.on('sourcedata', ev => {
-      if (ev.isSourceLoaded) {
-        const {tripId = 1} = this.props.match.params;
-        var bounds = this.props.lineStrings[tripId].geoJSON.coordinates.reduce(
-          function(bounds, coord) {
-            return bounds.extend(coord);
-          },
-          new mapboxgl.LngLatBounds(
-            this.props.lineStrings[tripId].geoJSON.coordinates[0],
-            this.props.lineStrings[tripId].geoJSON.coordinates[0],
-          ),
-        );
+      const {tripId = 1} = this.props.match.params;
+      if (
+        ev.isSourceLoaded &&
+        ev.sourceId === 'route' &&
+        ev.sourceDataType !== 'metadata' &&
+        this.map.getSource('route') &&
+        this.map.isSourceLoaded('route') &&
+        this.props.match.params.tripId !== undefined &&
+        this.props.lineStrings[tripId].geoJSON !== undefined
+      ) {
+        const {
+          geoJSON = {type: 'LineString', coordinates: [[0.0, 0.0]]},
+        } = this.props.lineStrings[tripId];
+
+        var bounds = geoJSON.coordinates.reduce(function(bounds, coord) {
+          return bounds.extend(coord);
+        }, new mapboxgl.LngLatBounds(
+          geoJSON.coordinates[0],
+          geoJSON.coordinates[0],
+        ));
 
         this.map.fitBounds(bounds, {
           padding: 100,
