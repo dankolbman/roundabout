@@ -15,14 +15,14 @@ class PointMap extends Component {
 
   componentDidMount() {
     this.renderMap();
-    const {tripId = 1} = this.props.match.params;
+    const {tripId = 3} = this.props.match.params;
     if (!(tripId in this.props.lineStrings)) {
       this.props.fetchData(tripId, this.map);
     }
   }
 
   renderMap() {
-    const {tripId = 1} = this.props.match.params;
+    const {tripId = 3} = this.props.match.params;
 
     this.map = new mapboxgl.Map({
       container: this.mapContainer,
@@ -56,7 +56,7 @@ class PointMap extends Component {
 
     // Zoom in on selected points when data changes
     this.map.on('sourcedata', ev => {
-      const {tripId = 1} = this.props.match.params;
+      const {tripId = 3} = this.props.match.params;
       if (
         ev.isSourceLoaded &&
         ev.sourceId === 'route' &&
