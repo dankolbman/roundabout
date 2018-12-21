@@ -30,6 +30,9 @@ class App extends Component {
               <NavLink to="/3">
                 <img src={tuktuk} width={24} height={24} />
                 Rickshaw Run
+                {Math.floor(Date.now() / 1000) < 1547942400 && (
+                  <span className="badge">en-route</span>
+                )}
               </NavLink>
             </li>
           </ul>
