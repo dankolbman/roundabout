@@ -16,19 +16,19 @@ class App extends Component {
           <ul className="nav-buttons">
             <li className="nav-button">
               <NavLink exact to="/">
-                <img src={scooter} width={24} height={24} />
+                <img src={scooter} width={24} height={24} alt="scooter" />
                 The Vietnamese Frontier
               </NavLink>
             </li>
             <li className="nav-button">
               <NavLink to="/2">
-                <img src={motorcycle} width={24} height={24} />
+                <img src={motorcycle} width={24} height={24} alt="motorcycle" />
                 Zuma and the Guptas
               </NavLink>
             </li>
             <li className="nav-button">
               <NavLink to="/3">
-                <img src={tuktuk} width={24} height={24} />
+                <img src={tuktuk} width={24} height={24} alt="rickshaw" />
                 Rickshaw Run
                 {Math.floor(Date.now() / 1000) < 1547942400 && (
                   <span className="badge">en-route</span>
