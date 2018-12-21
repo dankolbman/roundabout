@@ -1,5 +1,3 @@
-import {combineReducers} from 'redux';
-
 const lineStringReducer = (state = {}, action = {}) => {
   switch (action.type) {
     case 'LINESTRING_LOADING':

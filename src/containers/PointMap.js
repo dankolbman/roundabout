@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {tripPointsFetchPage} from '../actions/get_points';
 import {fetchTripLineString} from '../actions/LineStringActions';
-import {bindActionCreators} from 'redux';
 import mapboxgl from 'mapbox-gl';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
