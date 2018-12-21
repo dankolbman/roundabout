@@ -10,21 +10,21 @@ mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
 class PointMap extends Component {
   componentWillReceiveProps(nextProps) {
     const tripId = this.props.match.params.tripId;
-    if (nextProps.match.params.tripId != tripId) {
+    if (nextProps.match.params.tripId !== tripId) {
       this.props.fetchData(nextProps.match.params.tripId, this.map);
     }
   }
 
   componentDidMount() {
-    const tripId = this.props.match.params.tripId;
     this.renderMap();
+    const {tripId = 1} = this.props.match.params;
     if (!(tripId in this.props.lineStrings)) {
       this.props.fetchData(tripId, this.map);
     }
   }
 
   renderMap() {
-    const tripId = this.props.match.params.tripId;
+    const {tripId = 1} = this.props.match.params;
 
     this.map = new mapboxgl.Map({
       container: this.mapContainer,
@@ -55,7 +55,7 @@ class PointMap extends Component {
     // Zoom in on selected points when data changes
     this.map.on('sourcedata', ev => {
       if (ev.isSourceLoaded) {
-        const tripId = this.props.match.params.tripId;
+        const {tripId = 1} = this.props.match.params;
         var bounds = this.props.lineStrings[tripId].geoJSON.coordinates.reduce(
           function(bounds, coord) {
             return bounds.extend(coord);

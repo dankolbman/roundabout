@@ -15,7 +15,7 @@ class App extends Component {
 
           <ul className="nav-buttons">
             <li className="nav-button">
-              <NavLink to="/1">
+              <NavLink exact to="/">
                 <img src={scooter} width={24} height={24} />
                 The Vietnamese Frontier
               </NavLink>
@@ -39,7 +39,7 @@ class App extends Component {
         </div>
 
         <Switch>
-          <Route path="/:tripId" component={PointMap} />
+          <Route path="/:tripId?" component={PointMap} />
         </Switch>
       </div>
     );
