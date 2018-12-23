@@ -43,6 +43,36 @@ class PointMap extends Component {
         data: geoJSON,
       });
 
+      // Begin/end markers
+      var startFlag = document.createElement('div');
+      startFlag.className = 'marker';
+      startFlag.style.backgroundImage =
+        'url(https://raw.githubusercontent.com/encharm/Font-Awesome-SVG-PNG/master/black/png/32/flag-o.png)';
+      startFlag.style.backgroundSize = 'contain';
+      startFlag.style.width = '24px';
+      startFlag.style.height = '24px';
+      startFlag.style.position = 'relative';
+      startFlag.style.top = '-8px';
+      startFlag.style.left = '8px';
+
+      new mapboxgl.Marker(startFlag)
+        .setLngLat(geoJSON['coordinates'][0])
+        .addTo(this.map);
+
+      var endFlag = document.createElement('div');
+      endFlag.className = 'marker';
+      endFlag.style.backgroundImage =
+        'url(https://raw.githubusercontent.com/encharm/Font-Awesome-SVG-PNG/master/black/png/32/flag-checkered.png)';
+      endFlag.style.backgroundSize = 'contain';
+      endFlag.style.width = '24px';
+      endFlag.style.height = '24px';
+      endFlag.style.position = 'relative';
+      endFlag.style.top = '-24px';
+      endFlag.style.left = '10px';
+      new mapboxgl.Marker(endFlag)
+        .setLngLat(geoJSON['coordinates'][geoJSON['coordinates'].length - 1])
+        .addTo(this.map);
+
       this.map.addLayer(
         {
           id: 'route',
