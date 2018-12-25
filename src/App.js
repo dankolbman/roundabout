@@ -11,7 +11,9 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-header">
-          <span className="App-logo">dankolbman(x,y,z)</span>
+          <div className="Logo">
+            <span className="App-logo">dankolbman(x,y,z)</span>
+          </div>
 
           <ul className="nav-buttons">
             <li className="nav-button">
