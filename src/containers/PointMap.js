@@ -78,7 +78,7 @@ class PointMap extends Component {
           id: 'route',
           type: 'line',
           source: 'route',
-          paint: {'line-color': '#de3c4b', 'line-width': 2},
+          paint: {'line-color': '#c42847', 'line-width': 2},
         },
         'country-label-lg',
       );
