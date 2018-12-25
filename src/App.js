@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {NavLink, Route, Switch} from 'react-router-dom';
-import PointMap from './containers/PointMap';
+import TripView from './views/TripView';
 import tuktuk from './tuktuk.svg';
 import motorcycle from './motorcycle.svg';
 import scooter from './scooter.svg';
@@ -39,7 +39,7 @@ class App extends Component {
         </div>
 
         <Switch>
-          <Route path="/:tripId?" component={PointMap} />
+          <Route path="/:tripId?" component={TripView} />
         </Switch>
       </div>
     );
