@@ -99,13 +99,17 @@ $mobile: '750px';
 }
 
 .row {
-    margin: 16px 8px;
-    padding: 0px 16px;
+    display: flex;
+    padding: 0 16px;
+    @media screen and (max-width: $mobile) {
+        padding: 0;
+        width: 100%;
+        flex-wrap: wrap;
+    }
 }
 
 .chart {
-    width: 80%;
-    display: inline-block;
+    flex-grow: 1;
 
     @media screen and (max-width: $mobile) {
         display: block;
@@ -120,21 +124,30 @@ $mobile: '750px';
         text-align: center;
     }
 }
+
 .stats {
-    width: 20%;
-    display: inline-block;
-    min-width: 120px;
-    font-size: 2rem;
+    display: flex;
+    flex-flow: column;
     vertical-align: top;
-    text-align: center;
 
     @media screen and (max-width: $mobile) {
-        display: block;
+        flex-flow: row;
         width: 100%;
     }
+}
+
+.stat {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    font-size: 2rem;
+    text-align: center;
+    justify-content: center;
+    margin: 16px 0;
 
     h4 {
         border-bottom: 2px $primary dashed;
-        margin-bottom: 16px;
+        margin: 0 auto;
+        margin-bottom: 8px;
     }
 }

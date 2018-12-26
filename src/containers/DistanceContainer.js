@@ -12,6 +12,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import moment from 'moment';
+import Stat from '../components/Stat';
 
 class DistanceContainer extends Component {
   componentDidMount() {
@@ -70,16 +71,16 @@ class DistanceContainer extends Component {
           </div>
 
           <div className="stats">
-            <div className="stat">
-              <h4>Total Distance</h4>
-              {Math.round(
+            <Stat
+              title="Total Distance"
+              metric={Math.round(
                 this.props.distance[tripId].points[endPoint].distance,
               )}
-              km
-            </div>
-            <div className="stat">
-              <h4>Total Duration</h4>
-              {Math.round(
+              unit="km"
+            />
+            <Stat
+              title="Total Duration"
+              metric={Math.round(
                 moment
                   .duration(
                     moment(
@@ -89,9 +90,9 @@ class DistanceContainer extends Component {
                     ),
                   )
                   .asDays(),
-              )}{' '}
-              Days
-            </div>
+              )}
+              unit="Days"
+            />
           </div>
         </div>
       );
