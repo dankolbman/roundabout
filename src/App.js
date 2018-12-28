@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {NavLink, Route, Switch} from 'react-router-dom';
+import {NavLink, Route, Switch, withRouter} from 'react-router-dom';
 import TripView from './views/TripView';
 import tuktuk from './tuktuk.svg';
 import motorcycle from './motorcycle.svg';
@@ -41,11 +41,14 @@ class App extends Component {
         </div>
 
         <Switch>
-          <Route path="/:tripId?" component={TripView} />
+          <Route
+            path="/:tripId?"
+            component={props => <TripView {...props} />}
+          />
         </Switch>
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);
