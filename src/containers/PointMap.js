@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import {fetchTripLineString} from '../actions/LineStringActions';
 import mapboxgl from 'mapbox-gl';
@@ -142,4 +143,4 @@ function mapStateToProps(state) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(PointMap);
+)(withRouter(PointMap));
