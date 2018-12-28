@@ -12,7 +12,7 @@ class MetricContainer extends Component {
   }
 
   render() {
-    const tripId = this.props.match.params.tripId;
+    const {tripId = 3} = this.props.match.params;
     const {name, query} = this.props;
     if (
       this.props.metrics[tripId] !== undefined &&
