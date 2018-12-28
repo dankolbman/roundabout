@@ -8,12 +8,13 @@ export const TripView = ({...props}) => {
   return (
     <div>
       <PointMap />
-      {props.match.params.tripId === 3 && (
-        <div className="row">
-          <MetricContainer name="Cups of Chai" query="chai" unit=" Cups" />
-          <MetricContainer name="Breakdowns" query="break" unit="" />
-        </div>
-      )}
+      {props.match.params.tripId === 3 ||
+        (props.match.params.tripId === undefined && (
+          <div className="row">
+            <MetricContainer name="Cups of Chai" query="chai" unit=" Cups" />
+            <MetricContainer name="Breakdowns" query="break" unit="" />
+          </div>
+        ))}
       <DistanceContainer />
     </div>
   );
