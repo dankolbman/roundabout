@@ -70,30 +70,35 @@ class DistanceContainer extends Component {
             </ResponsiveContainer>
           </div>
 
-          <div className="stats">
-            <Stat
-              title="Total Distance"
-              metric={Math.round(
-                this.props.distance[tripId].points[endPoint].distance,
-              )}
-              unit="km"
-            />
-            <Stat
-              title="Total Duration"
-              metric={Math.round(
-                moment
-                  .duration(
-                    moment(
-                      this.props.distance[tripId].points[endPoint].time * 1000,
-                    ).diff(
-                      moment(this.props.distance[tripId].points[0].time * 1000),
-                    ),
-                  )
-                  .asDays(),
-              )}
-              unit="Days"
-            />
-          </div>
+          {endPoint > 1 && (
+            <div className="stats">
+              <Stat
+                title="Total Distance"
+                metric={Math.round(
+                  this.props.distance[tripId].points[endPoint].distance,
+                )}
+                unit="km"
+              />
+              <Stat
+                title="Total Duration"
+                metric={Math.round(
+                  moment
+                    .duration(
+                      moment(
+                        this.props.distance[tripId].points[endPoint].time *
+                          1000,
+                      ).diff(
+                        moment(
+                          this.props.distance[tripId].points[0].time * 1000,
+                        ),
+                      ),
+                    )
+                    .asDays(),
+                )}
+                unit="Days"
+              />
+            </div>
+          )}
         </div>
       );
     } else {
