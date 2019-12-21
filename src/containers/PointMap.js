@@ -26,6 +26,10 @@ class PointMap extends Component {
   renderMap() {
     const {tripId = 3} = this.props.match.params;
 
+    if (tripId in this.props.lineStrings) {
+      return;
+    }
+
     this.map = new mapboxgl.Map({
       container: this.mapContainer,
       style: 'mapbox://styles/mapbox/light-v9',
@@ -116,7 +120,7 @@ class PointMap extends Component {
   }
 
   componentWillUnmount() {
-    this.map.remove();
+    this.map && this.map.remove();
   }
 
   render() {
