@@ -14,3 +14,21 @@ export const TRIPS = gql`
     }
   }
 `;
+
+export const TRIP = gql`
+  query Trip($tripId: ID!) {
+    trip(id: $tripId) {
+      id
+      name
+      createdAt
+      description
+      geoJSON {
+        type
+        geometry {
+          type
+          coordinates
+        }
+      }
+    }
+  }
+`;
