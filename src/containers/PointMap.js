@@ -15,10 +15,11 @@ class PointMap extends Component {
   }
 
   componentDidMount() {
-    this.renderMap();
     const {tripId = 3} = this.props.match.params;
     if (!(tripId in this.props.lineStrings)) {
       this.props.fetchData(tripId, this.map);
+    } else {
+      this.renderMap();
     }
   }
 
