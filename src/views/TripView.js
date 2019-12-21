@@ -6,7 +6,7 @@ import MetricContainer from '../containers/MetricContainer';
 
 export const TripView = ({...props}) => {
   return (
-    <div>
+    <>
       <PointMap />
       {props.match.params.tripId === 3 ||
         (props.match.params.tripId === undefined && (
@@ -16,7 +16,7 @@ export const TripView = ({...props}) => {
           </div>
         ))}
       <DistanceContainer />
-    </div>
+    </>
   );
 };
 
