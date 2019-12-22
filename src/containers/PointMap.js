@@ -6,11 +6,11 @@ import mapboxgl from 'mapbox-gl';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
 
-const PointMap = props => {
+const PointMap = ({match, tripId}) => {
   const mapContainer = useRef(null);
 
   const {loading, error, data} = useQuery(TRIP, {
-    variables: {tripId: props.match.params.tripId},
+    variables: {tripId: tripId || match.params.tripId},
   });
 
   const geoJSON = data && data.trip.geoJSON;
@@ -20,8 +20,6 @@ const PointMap = props => {
   });
 
   const renderMap = () => {
-    const {tripId = 3} = props.match.params;
-
     const map = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/light-v9',
@@ -87,7 +85,7 @@ const PointMap = props => {
 
     // Zoom in on selected points when data changes
     map.on('sourcedata', ev => {
-      const {tripId = 3} = props.match.params;
+      const {tripId = 3} = match.params;
       if (
         ev.isSourceLoaded &&
         ev.sourceId === 'route' &&

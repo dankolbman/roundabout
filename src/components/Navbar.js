@@ -1,18 +1,8 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
-import {useQuery} from '@apollo/react-hooks';
 import scooter from '../scooter.svg';
-import {TRIPS} from '../queries';
 
-const NavBar = () => {
-  const {loading, error, data} = useQuery(TRIPS);
-
-  const trips = data && data.trips.edges;
-
-  if (!trips) {
-    return 'Loading...';
-  }
-
+const NavBar = ({trips, loading}) => {
   return (
     <ul className="nav-buttons">
       {trips &&

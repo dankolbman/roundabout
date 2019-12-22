@@ -4,20 +4,19 @@ import PointMap from '../containers/PointMap';
 import DistanceContainer from '../containers/DistanceContainer';
 import MetricContainer from '../containers/MetricContainer';
 
-export const TripView = ({...props}) => {
+export const TripView = ({tripId}) => {
   return (
     <>
-      <PointMap />
-      {props.match.params.tripId === 3 ||
-        (props.match.params.tripId === undefined && (
-          <div className="row">
-            <MetricContainer name="Cups of Chai" query="chai" unit=" Cups" />
-            <MetricContainer name="Breakdowns" query="break" unit="" />
-          </div>
-        ))}
+      <PointMap tripId={tripId} />
+      {tripId === undefined && (
+        <div className="row">
+          <MetricContainer name="Cups of Chai" query="chai" unit=" Cups" />
+          <MetricContainer name="Breakdowns" query="break" unit="" />
+        </div>
+      )}
       <DistanceContainer />
     </>
   );
 };
 
-export default withRouter(TripView);
+export default TripView;
