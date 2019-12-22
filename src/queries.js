@@ -29,6 +29,10 @@ export const TRIP = gql`
           coordinates
         }
       }
+      distance {
+        time
+        value
+      }
     }
   }
 `;

@@ -1,19 +1,12 @@
 import React, {useEffect, useRef} from 'react';
-import {useQuery} from '@apollo/react-hooks';
 import {withRouter} from 'react-router';
-import {TRIP} from '../queries';
 import mapboxgl from 'mapbox-gl';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
 
-const PointMap = ({match, tripId}) => {
+const PointMap = ({trip}) => {
   const mapContainer = useRef(null);
-
-  const {loading, error, data} = useQuery(TRIP, {
-    variables: {tripId: tripId || match.params.tripId},
-  });
-
-  const geoJSON = data && data.trip.geoJSON;
+  const geoJSON = trip && trip.geoJSON;
 
   useEffect(() => {
     geoJSON && renderMap();
@@ -85,7 +78,7 @@ const PointMap = ({match, tripId}) => {
 
     // Zoom in on selected points when data changes
     map.on('sourcedata', ev => {
-      const {tripId = 3} = match.params;
+      const {tripId = 3} = trip.id;
       if (
         ev.isSourceLoaded &&
         ev.sourceId === 'route' &&

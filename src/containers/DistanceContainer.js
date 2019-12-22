@@ -1,8 +1,4 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {withRouter} from 'react-router';
-import {fetchTripDistance} from '../actions/DistanceActions';
-import {bindActionCreators} from 'redux';
+import React from 'react';
 import {
   LineChart,
   Tooltip,
@@ -14,112 +10,75 @@ import {
 import moment from 'moment';
 import Stat from '../components/Stat';
 
-class DistanceContainer extends Component {
-  componentDidMount() {
-    const {tripId = 3} = this.props.match.params;
-    this.props.fetchData(tripId);
+const DistanceContainer = ({distances}) => {
+  if (!distances) {
+    return 'Loading...';
   }
 
-  render() {
-    const style = {
-      width: '100%',
-    };
-    const tripId = this.props.match.params.tripId;
-    if (
-      this.props.distance[tripId] !== undefined &&
-      this.props.distance[tripId].points !== undefined
-    ) {
-      const endPoint = this.props.distance[tripId].points.length - 1;
-      return (
-        <div className="row">
-          <div className="chart">
-            <h2>Distance</h2>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart
-                width={800}
-                height={400}
-                data={this.props.distance[tripId].points}>
-                <XAxis
-                  domain={['dataMin', 'dataMax']}
-                  dataKey="time"
-                  type="number"
-                  tickFormatter={str => moment(str * 1000).format('M/D')}
-                  padding={{left: 20, right: 40}}
-                />
-                <Tooltip
-                  formatter={val => Math.round(val)}
-                  labelFormatter={str =>
-                    moment(str * 1000).format('hh:mma Do MMM')
-                  }
-                />
-                <Line
-                  type="monotone"
-                  dataKey="distance"
-                  stroke="#c42847"
-                  strokeWidth={3}
-                  dot={false}
-                />
-                <YAxis
-                  label={{
-                    value: 'Distance (km)',
-                    angle: -90,
-                    position: 'insideLeft',
-                  }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
+  const d = distances.map(d => ({
+    time: Math.round(Date.parse(d.time) / 1),
+    value: d.value,
+  }));
 
-          {endPoint > 1 && (
-            <div className="stats">
-              <Stat
-                title="Total Distance"
-                metric={Math.round(
-                  this.props.distance[tripId].points[endPoint].distance,
-                )}
-                unit="km"
-              />
-              <Stat
-                title="Total Duration"
-                metric={Math.round(
-                  moment
-                    .duration(
-                      moment(
-                        this.props.distance[tripId].points[endPoint].time *
-                          1000,
-                      ).diff(
-                        moment(
-                          this.props.distance[tripId].points[0].time * 1000,
-                        ),
-                      ),
-                    )
-                    .asDays(),
-                )}
-                unit="Days"
-              />
-            </div>
-          )}
+  const endPoint = d.length - 1;
+
+  return (
+    <div className="row">
+      <div className="chart">
+        <h2>Distance</h2>
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart width={800} height={400} data={d}>
+            <XAxis
+              domain={['dataMin', 'dataMax']}
+              dataKey="time"
+              type="number"
+              tickFormatter={str => moment(str).format('M/D')}
+              padding={{left: 20, right: 40}}
+            />
+            <Tooltip
+              formatter={val => Math.round(val)}
+              labelFormatter={str => moment(str).format('hh:mma Do MMM')}
+            />
+            <Line
+              type="monotone"
+              dataKey="value"
+              stroke="#c42847"
+              strokeWidth={3}
+              dot={false}
+            />
+            <YAxis
+              label={{
+                value: 'Distance (km)',
+                angle: -90,
+                position: 'insideLeft',
+              }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+
+      {endPoint > 1 && (
+        <div className="stats">
+          <Stat
+            title="Total Distance"
+            metric={Math.round(distances[endPoint].value)}
+            unit="km"
+          />
+          <Stat
+            title="Total Duration"
+            metric={Math.round(
+              moment
+                .duration(
+                  moment(d[endPoint].time).diff(moment(distances[0].time)),
+                )
+                .asDays(),
+            )}
+            unit="Days"
+          />
         </div>
-      );
-    } else {
-      return <div>Loading</div>;
-    }
-  }
-}
+      )}
+    </div>
+  );
+};
 
-function mapDispatchToProps(dispatch) {
-  return {
-    fetchData: tripId => dispatch(fetchTripDistance(tripId)),
-  };
-}
-
-function mapStateToProps(state) {
-  return {
-    distance: state.distance,
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(withRouter(DistanceContainer));
+export default DistanceContainer;
