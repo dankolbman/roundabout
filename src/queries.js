@@ -9,6 +9,8 @@ export const TRIPS = gql`
           name
           createdAt
           description
+          icon
+          order
         }
       }
     }
