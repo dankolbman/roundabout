@@ -1,79 +1,61 @@
 import { Fragment, useState } from "react";
-import ReactMapGL, { Source, Layer } from "react-map-gl";
+import ReactMapGL, { Source, Layer, WebMercatorViewport } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-
-const geojson = {
-  type: "Feature",
-  properties: {},
-  geometry: {
-    type: "LineString",
-    coordinates: [
-      [-26.203888, 28.061397],
-      [28.061397, -26.203888],
-      [28.061363, -26.203884],
-      [28.061506, -26.203892],
-      [28.061523, -26.203872],
-      [28.061134, -26.20389],
-      [28.061203, -26.203876],
-      [28.061203, -26.203876],
-      [28.061066, -26.203884],
-      [28.061066, -26.203884],
-      [28.061066, -26.203884],
-      [28.061249, -26.203951],
-      [28.061249, -26.203951],
-      [28.06118, -26.203881],
-      [28.06118, -26.203881],
-      [28.06118, -26.203881],
-      [28.060997, -26.203877],
-      [28.061157, -26.203885],
-      [28.061089, -26.203879],
-      [28.061134, -26.20389],
-      [28.061399, -26.20383],
-      [28.061402, -26.203824],
-      [28.061409, -26.203824],
-      [28.06118, -26.203965],
-      [28.06118, -26.203965],
-      [28.061294, -26.203856],
-      [28.061294, -26.203856],
-      [28.061425, -26.203825],
-      [28.061426, -26.203814],
-      [28.06143, -26.203806],
-      [28.06134, -26.203868],
-      [28.06134, -26.203868],
-    ].map((v) => [v[1], v[0]]),
-  },
-};
 
 const layerStyle = {
   id: "line",
   type: "line",
   paint: {
-    "line-color": "#FF0000",
+    "line-color": "#0284C7",
   },
 };
 
 type MapProps = {
   tripId: string;
+  geoJSON: any;
 };
 
-export default function Map({ tripId }: MapProps) {
-  const [viewport, setViewport] = useState({
-    width: "100%",
-    height: 400,
-    latitude: -26,
-    longitude: 28,
-    zoom: 5,
-  });
+export default function Map({ tripId, geoJSON }: MapProps) {
+  if (!geoJSON) return <div>loading</div>;
+
+  const getBounds = () => {
+    var bounds = { xMin: 180, xMax: -180, yMin: 180, yMax: -180 };
+
+    geoJSON.geometry.coordinates.forEach((coord) => {
+      let longitude = coord[0];
+      let latitude = coord[1];
+      bounds.xMin = bounds.xMin < longitude ? bounds.xMin : longitude;
+      bounds.xMax = bounds.xMax > longitude ? bounds.xMax : longitude;
+      bounds.yMin = bounds.yMin < latitude ? bounds.yMin : latitude;
+      bounds.yMax = bounds.yMax > latitude ? bounds.yMax : latitude;
+    });
+
+    return [
+      [bounds.xMin, bounds.yMin],
+      [bounds.xMax, bounds.yMax],
+    ];
+  };
+
+  const view = new WebMercatorViewport({ width: 800, height: 600 }).fitBounds(
+    getBounds(),
+    {
+      padding: 20,
+      offset: [0, -100],
+    }
+  );
+  const [viewport, setViewport] = useState({ ...view });
 
   return (
     <>
       <div className="h-full max-h-96 bg-stone-300">
         <ReactMapGL
           {...viewport}
+          width="100%"
+          height="100%"
           mapboxApiAccessToken="pk.eyJ1IjoiZGFuazUyOCIsImEiOiJja3owZ2N1cjIxYWRiMnp0YjVlN2o1Mzh4In0.fLO4uMzR-1q7XZwttnadNA"
           onViewportChange={(nextViewport) => setViewport(nextViewport)}
         >
-          <Source id="my-data" type="geojson" data={geojson}>
+          <Source id="my-data" type="geojson" data={geoJSON}>
             <Layer {...layerStyle} />
           </Source>
         </ReactMapGL>
