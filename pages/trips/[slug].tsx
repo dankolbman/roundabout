@@ -25,16 +25,22 @@ const TRIP_QUERY = gql`
 
 export async function getStaticPaths() {
   return {
-    paths: ["/trips/VHJpcE5vZGU6Mg=="],
+    paths: [
+      "/trips/VHJpcE5vZGU6Mg==",
+      "/trips/VHJpcE5vZGU6Mw==",
+      "/trips/VHJpcE5vZGU6MQ==",
+    ],
     fallback: true,
   };
 }
 
-export async function getStaticProps() {
+export async function getStaticProps(context) {
+  const { slug } = context.params;
+
   const { data, errors } = await client
     .query({
       query: TRIP_QUERY,
-      variables: { tripId: "VHJpcE5vZGU6Mg==" },
+      variables: { tripId: slug },
     })
     .catch((err) => {
       console.log(err.networkError);
