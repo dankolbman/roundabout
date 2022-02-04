@@ -12,9 +12,10 @@ import {
 
 type HeaderProps = {
   title: string;
+  year: string;
 };
 
-export default function Header({ title }: HeaderProps) {
+export default function Header({ title, year }: HeaderProps) {
   return (
     <div className="lg:flex lg:items-center lg:justify-between">
       <div className="flex-1 min-w-0">
@@ -22,16 +23,16 @@ export default function Header({ title }: HeaderProps) {
           {title}
         </h1>
         <div className="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-6">
-          <div className="mt-2 flex items-center text-sm text-gray-500">
+          <div className="mt-2 flex items-center text-sm text-stone-600">
             <CalendarIcon
-              className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
+              className="flex-shrink-0 mr-1.5 h-5 w-5 text-stone-500"
               aria-hidden="true"
             />
-            2015
+            {year}
           </div>
-          <div className="mt-2 flex items-center text-sm text-gray-500">
+          <div className="mt-2 flex items-center text-sm text-stone-600">
             <LocationMarkerIcon
-              className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
+              className="flex-shrink-0 mr-1.5 h-5 w-5 text-stone-500"
               aria-hidden="true"
             />
             SE Asia
