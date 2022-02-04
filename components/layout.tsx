@@ -1,4 +1,5 @@
 import { Fragment, useState } from "react";
+import { useRouter } from "next/router";
 import { Dialog, Transition } from "@headlessui/react";
 import {
   CalendarIcon,
@@ -10,34 +11,36 @@ import {
   UserGroupIcon,
   XIcon,
 } from "@heroicons/react/outline";
+import { AutoIcon, BicycleIcon, MotorcycleIcon, ScooterIcon } from "./icons";
+import MenuItem from "./menu-item";
 
 const navigation = [
   {
     year: 2015,
     name: "The Vietnamese Frontier",
     href: "/trips/VHJpcE5vZGU6MQ==",
-    icon: HomeIcon,
+    icon: ScooterIcon,
     current: true,
   },
   {
     year: 2017,
     name: "Zuma and The Guptas",
-    href: "/trips/VHJpcE5vZGU6Mw==",
-    icon: CalendarIcon,
+    href: "/trips/VHJpcE5vZGU6Mg==",
+    icon: MotorcycleIcon,
     current: false,
   },
   {
     year: 2019,
     name: "Rickshaw Run",
-    href: "/trips/VHJpcE5vZGU6Mg==",
-    icon: UserGroupIcon,
+    href: "/trips/VHJpcE5vZGU6Mw==",
+    icon: AutoIcon,
     current: false,
   },
   {
     year: 2021,
     name: "Monument Valley",
     href: "#",
-    icon: SearchCircleIcon,
+    icon: BicycleIcon,
     current: false,
   },
 ];
@@ -51,7 +54,13 @@ type LayoutProps = {
 };
 
 export default function Layout({ children }: LayoutProps) {
+  const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const isCurrent = (item) => {
+    return router.asPath === item.href;
+  };
+
   return (
     <>
       <div className="h-full flex">
@@ -120,7 +129,7 @@ export default function Layout({ children }: LayoutProps) {
                           key={item.name}
                           href={item.href}
                           className={classNames(
-                            item.current
+                            isCurrent(item)
                               ? "bg-stone-100 text-stone-900"
                               : "text-stone-600 hover:bg-stone-50 hover:text-stone-900",
                             "group flex items-center px-2 py-2 text-base font-medium rounded-md"
@@ -128,7 +137,7 @@ export default function Layout({ children }: LayoutProps) {
                         >
                           <item.icon
                             className={classNames(
-                              item.current
+                              isCurrent(item)
                                 ? "text-stone-500"
                                 : "text-stone-400 group-hover:text-stone-500",
                               "mr-4 h-6 w-6"
@@ -151,40 +160,48 @@ export default function Layout({ children }: LayoutProps) {
 
         {/* Static sidebar for desktop */}
         <div className="hidden lg:flex lg:flex-shrink-0">
-          <div className="flex flex-col w-64">
+          <div className="flex flex-col w-72">
             {/* Sidebar component, swap this element with another sidebar if you like */}
             <div className="flex-1 flex flex-col min-h-0 border-r border-stone-900 bg-stone-800">
               <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
-                <div className="flex items-center flex-shrink-0 px-4 text-stone-50">
-                  Title
+                <div className="flex flex-col items-center flex-shrink-0 px-4 pb-4 text-stone-50">
+                  <span className="text-xl font-mono italic">
+                    dankolbman(x, y, z)
+                  </span>
+                  <span className="text-stone-300 text-md font-light">
+                    Ben and Dan Biannual Adventures
+                  </span>
+                </div>
+                <div className="relative">
+                  <div
+                    className="absolute inset-0 flex items-center"
+                    aria-hidden="true"
+                  >
+                    <div className="w-full border-t border-stone-700" />
+                  </div>
                 </div>
                 <nav className="mt-5 flex-1" aria-label="Sidebar">
                   <div className="px-2 space-y-1">
                     {navigation.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        className={classNames(
-                          item.current
-                            ? "bg-stone-600 text-stone-50"
-                            : "text-stone-200 hover:bg-stone-200 hover:text-stone-900",
-                          "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
-                        )}
-                      >
-                        <item.icon
-                          className={classNames(
-                            item.current
-                              ? "text-stone-300"
-                              : "text-stone-500 group-hover:text-stone-700",
-                            "mr-3 h-6 w-6"
-                          )}
-                          aria-hidden="true"
-                        />
-                        {item.name}
-                      </a>
+                      <MenuItem key={item.name} item={item} />
                     ))}
                   </div>
                 </nav>
+              </div>
+              <div className="px-2 py-2">
+                <a
+                  href="https://kolbman.com"
+                  className="bg-stone-100 text-stone-800 border-2 border-outside border-double border-blue-500 flex items-center p-2 rounded-md hover:bg-stone-300"
+                >
+                  <img
+                    className="h-16 w-16 ring-4 ring-blue-500 rounded-full object-cover"
+                    src="https://kolbman.com/theme/images/profile.jpg"
+                  />
+                  <div className="ml-4 flex flex-col">
+                    <span>Dan Kolbman</span>
+                    <span className="font-light underline">kolbman.com</span>
+                  </div>
+                </a>
               </div>
             </div>
           </div>
@@ -192,14 +209,7 @@ export default function Layout({ children }: LayoutProps) {
         <div className="flex flex-col min-w-0 flex-1 overflow-hidden">
           <div className="lg:hidden">
             <div className="flex items-center justify-between bg-stone-50 border-b border-stone-200 px-4 py-1.5">
-              <div>
-                <img
-                  className="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                  alt="Workflow"
-                />
-                Title
-              </div>
+              <div>dankolbman(x, y, z)</div>
               <div>
                 <button
                   type="button"
@@ -213,7 +223,7 @@ export default function Layout({ children }: LayoutProps) {
             </div>
           </div>
           <div className="flex-1 relative z-0 flex overflow-hidden">
-            <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none xl:order-last">
+            <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none xl:order-last max-w-2xl">
               {children}
             </main>
           </div>
