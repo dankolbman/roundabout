@@ -13,9 +13,10 @@ import {
 type HeaderProps = {
   title: string;
   year: string;
+  location: string;
 };
 
-export default function Header({ title, year }: HeaderProps) {
+export default function Header({ title, year, location }: HeaderProps) {
   return (
     <div className="lg:flex lg:items-center lg:justify-between">
       <div className="flex-1 min-w-0">
@@ -35,7 +36,7 @@ export default function Header({ title, year }: HeaderProps) {
               className="flex-shrink-0 mr-1.5 h-5 w-5 text-stone-500"
               aria-hidden="true"
             />
-            SE Asia
+            {location}
           </div>
         </div>
       </div>

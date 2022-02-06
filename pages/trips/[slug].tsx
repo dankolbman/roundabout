@@ -12,6 +12,8 @@ const TRIP_QUERY = gql`
       name
       createdAt
       description
+      location
+      tripTime
       geoJSON {
         type
         geometry {
@@ -29,6 +31,7 @@ export async function getStaticPaths() {
       "/trips/VHJpcE5vZGU6Mg==",
       "/trips/VHJpcE5vZGU6Mw==",
       "/trips/VHJpcE5vZGU6MQ==",
+      "/trips/VHJpcE5vZGU6NQ==",
     ],
     fallback: true,
   };
@@ -50,14 +53,15 @@ export async function getStaticProps(context) {
   return {
     props: {
       name: data.trip.name,
-      description: data.trip.description,
-      year: new Date(data.trip.createdAt).getFullYear(),
-      geoJSON: data.trip.geoJSON,
+      description: data.trip.description || null,
+      year: data.trip.tripTime || null,
+      location: data.trip.location || null,
+      geoJSON: data.trip.geoJSON || null,
     },
   };
 }
 
-const Trip = ({ name, description, year, geoJSON }) => {
+const Trip = ({ name, description, year, location, geoJSON }) => {
   const router = useRouter();
   const { slug } = router.query;
   const { data, loading, error } = useQuery(TRIP_QUERY);
@@ -77,7 +81,7 @@ const Trip = ({ name, description, year, geoJSON }) => {
         src={images[year]}
       />
       <div className="relative bg-stone-50/80 -top-24 mx-6 py-6 px-2 sm:px-6 lg:px-8">
-        <Header title={name} year={year} />
+        <Header title={name} year={year} location={location} />
         <div className="max-w-prose pt-4">{description}</div>
       </div>
     </Layout>

@@ -39,7 +39,7 @@ const navigation = [
   {
     year: 2021,
     name: "Monument Valley",
-    href: "#",
+    href: "/trips/VHJpcE5vZGU6NQ==",
     icon: BicycleIcon,
     current: false,
   },
