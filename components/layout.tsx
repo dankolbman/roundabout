@@ -223,7 +223,7 @@ export default function Layout({ children }: LayoutProps) {
             </div>
           </div>
           <div className="flex-1 relative z-0 flex overflow-hidden">
-            <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none xl:order-last max-w-2xl">
+            <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none xl:order-last max-w-4xl">
               {children}
             </main>
           </div>
