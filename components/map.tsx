@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import ReactMapGL, { Source, Layer, WebMercatorViewport } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
@@ -43,7 +43,19 @@ export default function Map({ tripId, geoJSON }: MapProps) {
       offset: [0, -100],
     }
   );
+
   const [viewport, setViewport] = useState({ ...view });
+
+  useEffect(() => {
+    const view = new WebMercatorViewport({ width: 800, height: 600 }).fitBounds(
+      getBounds(),
+      {
+        padding: 20,
+        offset: [0, -100],
+      }
+    );
+    setViewport({ ...view });
+  }, [geoJSON]);
 
   return (
     <>
