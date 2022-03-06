@@ -209,7 +209,7 @@ export default function Layout({ children }: LayoutProps) {
         <div className="flex flex-col min-w-0 flex-1 overflow-hidden">
           <div className="lg:hidden">
             <div className="flex items-center justify-between bg-stone-50 border-b border-stone-200 px-4 py-1.5">
-              <div>dankolbman(x, y, z)</div>
+              <div className="font-mono italic">dankolbman(x, y, z)</div>
               <div>
                 <button
                   type="button"
@@ -222,8 +222,8 @@ export default function Layout({ children }: LayoutProps) {
               </div>
             </div>
           </div>
-          <div className="flex-1 relative z-0 flex overflow-hidden">
-            <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none xl:order-last max-w-4xl">
+          <div className="flex-1 relative z-0 flex w-full overflow-y-auto">
+            <main className="flex-1 relative z-0 max-w-4xl focus:outline-none xl:order-last">
               {children}
             </main>
           </div>
