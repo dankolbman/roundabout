@@ -39,7 +39,7 @@ export default function Map({ tripId, geoJSON }: MapProps) {
   const view = new WebMercatorViewport({ width: 800, height: 600 }).fitBounds(
     getBounds(),
     {
-      padding: 20,
+      padding: 40,
       offset: [0, -100],
     }
   );
@@ -50,7 +50,7 @@ export default function Map({ tripId, geoJSON }: MapProps) {
     const view = new WebMercatorViewport({ width: 800, height: 600 }).fitBounds(
       getBounds(),
       {
-        padding: 20,
+        padding: 40,
         offset: [0, -100],
       }
     );
