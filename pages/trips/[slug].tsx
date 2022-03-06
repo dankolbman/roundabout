@@ -99,9 +99,10 @@ const Trip = ({ name, description, year, location, geoJSON, memories }) => {
         <Header title={name} year={year} location={location} />
         <div className="max-w-prose py-4 text-lg">{description}</div>
         <ul className="space-y-8">
-          {memories.edges.map(({ node }) => (
-            <Memory key={node.id} memory={node} />
-          ))}
+          {memories &&
+            memories.edges.map(({ node }) => (
+              <Memory key={node.id} memory={node} />
+            ))}
         </ul>
       </div>
     </Layout>
