@@ -1,16 +1,7 @@
 import { Fragment, useState } from "react";
 import { useRouter } from "next/router";
 import { Dialog, Transition } from "@headlessui/react";
-import {
-  CalendarIcon,
-  HomeIcon,
-  MapIcon,
-  MenuIcon,
-  SearchCircleIcon,
-  SpeakerphoneIcon,
-  UserGroupIcon,
-  XIcon,
-} from "@heroicons/react/outline";
+import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { AutoIcon, BicycleIcon, MotorcycleIcon, ScooterIcon } from "./icons";
 import MenuItem from "./menu-item";
 
