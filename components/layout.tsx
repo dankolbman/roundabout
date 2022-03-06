@@ -156,9 +156,9 @@ export default function Layout({ children }: LayoutProps) {
             <div className="flex-1 flex flex-col min-h-0 border-r border-stone-900 bg-stone-800">
               <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
                 <div className="flex flex-col items-center flex-shrink-0 px-4 pb-4 text-stone-50">
-                  <span className="text-xl font-mono italic">
+                  <a href="/" className="text-xl font-mono italic">
                     dankolbman(x, y, z)
-                  </span>
+                  </a>
                   <span className="text-stone-300 text-md font-light">
                     Ben and Dan Biannual Adventures
                   </span>
