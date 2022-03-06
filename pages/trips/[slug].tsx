@@ -85,7 +85,7 @@ const Trip = ({ name, description, year, location, geoJSON, memories }) => {
     2015: "/vietnam.jpg",
     2017: "/south_africa.jpg",
     2019: "/rickshaw_run.jpg",
-    2021: "/monument_valley.jpg",
+    2021: "/cathedral_valley.jpg",
   };
 
   return (
